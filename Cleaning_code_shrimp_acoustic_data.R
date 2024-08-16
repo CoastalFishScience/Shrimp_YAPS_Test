@@ -4,19 +4,10 @@
 library(tidyverse)
 library(splitstackshape)
 library(chron)
-library()
+library(yaps)
+
 
 HR2_list <- list.files("./Data/", full.names = TRUE)
-files_all <- function(x){
-  df <- lapply(x, read_csv, skip = 37, col_names = FALSE,) %>% 
-    # subset(., X1 %in% c("DET"))%>%
-    # bind_rows %>% 
-    plyr::rbind.fill %>%
-    subset(., select = 1:13) %>%
-    
-    mutate(X10 = as.character(X10))  #mutate here is to force X10 as character so I can use rbind later and transfer the number/name of object within the list as a column
-  
-}
 
 HR2_all <- lapply(HR2_list, read_csv, skip = 37, col_names = FALSE) %>% 
   # subset(., X1 %in% c("DET"))%>%
@@ -30,3 +21,5 @@ colnames(HR2_all)<-c("Type", "Date.Time.UTC", "Date.Time.Offset", "trash",
                         "ID", "Signal.DB", "Noise.DB", 'Q.score')
 
 HR2_all_det <- HR2_all %>% dplyr::filter(Type == 'DET') %>% select(-c(trash, Signal.DB, Noise.DB, Q.score)) 
+
+#
