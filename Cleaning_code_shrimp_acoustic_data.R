@@ -30,5 +30,5 @@ HR2_1 <- HR2 %>% select(c(Date.Time.Offset, Model, Receiver.ID, Full.ID, Detecti
   mutate(Receiver = paste(Model, Receiver.ID, sep = '-')) %>% select(-c(Model, Receiver.ID, Detection.Type)) %>% rename('Date.and.Time..UTC.' = Date.Time.Offset, 'Transmitter' = Full.ID) %>% 
   mutate(Transmitter.Name = NA, Transmitter.Serial = NA, Sensor.Value = NA, Sensor.Unit = NA, Statione.Name = NA, Latitude = NA, Longitude = NA, Transmitter.Type = NA, Sensor.Precision = NA)
 
-
-                      
+write.csv(HR2_1, file = 'C:/Users/jonro/OneDrive/Documentos/Shrimp_YAPS_Test/HR2_VUE.csv')
+                   
