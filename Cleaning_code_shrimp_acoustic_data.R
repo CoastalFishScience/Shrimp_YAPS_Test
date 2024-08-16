@@ -24,3 +24,9 @@ HR2_all <- lapply(HR2_list, read_csv, skip = 37, col_names = FALSE) %>%
   list_rbind() #%>%
   #subset(., select = 1:13)
 
+colnames(HR2_all)<-c("Type", "Date.Time.UTC", "Date.Time.Offset", "trash",
+                        "Time.Offset", "Model",
+                        "Receiver.ID", "Detection.Type", "Full.ID",
+                        "ID", "Signal.DB", "Noise.DB", 'Q.score')
+
+HR2_all_det <- HR2_all %>% dplyr::filter(Type == 'DET') %>% select(-c(trash, Signal.DB, Noise.DB, Q.score)) 
