@@ -10,8 +10,9 @@ acoustic$`Date and Time (UTC)` <- as.character(acoustic$`Date and Time (UTC)`)
 
 #get rid of shrimp receiver
 acoustic <- acoustic %>% filter(Receiver != 'HR2-461360')
+str(acoustic)
 
-
+prepDetections
 detections <- prepDetections(raw_dat = acoustic, type='vemco_vue')
 hydros <- data.table::fread('./Data/hydros.csv')
 
@@ -30,6 +31,24 @@ shrimp$hydros$sync_tag <- as.double(shrimp$hydros$sync_tag)
 shrimp$detections$tag <- as.integer(shrimp$detections$tag)
 shrimp$detections$epo <- as.integer(shrimp$detections$epo)
 shrimp$detections$serial <- as.integer(shrimp$detections$serial)
+
+str(shrimp$hydros)
+
+shrimp$hydros$x <- shrimp$hydros$x/100
+shrimp$hydros$y <- shrimp$hydros$y/100
+
+str(shrimp$hydros)
+str(shrimp$detections)
+shrimp$detections$frac <- as.numeric(shrimp$detections$ts)-floor(as.numeric(shrimp$detections$ts))
+shrimp$detections$epofrac <- shrimp$detefctions$epo + shrimp$detections$frac
+str(shrimp$detections)
+
+
+shrimp$detections[, epofrac := epo+ frac]
+
+gnu <- shrimp$detections
+
+gnu[, .N, by=.(serial, tag)]
 
 inp_sync <- getInpSync(sync_dat = shrimp, max_epo_diff, min_hydros, time_keeper_idx,
                        fixed_hydros_idx, n_offset_day, n_ss_day, keep_rate)
